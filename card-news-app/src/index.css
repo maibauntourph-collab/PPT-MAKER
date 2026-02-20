@@ -1,0 +1,35 @@
+/* 📦 전역 CSS 스타일시트
+   담당: 킴 디자이너
+   설명: Tailwind CSS v4 스타일시트 설정
+*/
+@import "tailwindcss";
+
+/* Google Fonts - Noto Sans KR 불러오기 (한국어 최적화 폰트) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+/* 페이지 기본 설정 */
+@layer base {
+
+  html,
+  body,
+  #root {
+    @apply h-full w-full m-0 p-0 overflow-hidden;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+}
+
+/* 별 파티클 커스텀 스타일 */
+@layer components {
+  .star {
+    @apply absolute rounded-full bg-white;
+    animation: twinkle var(--duration, 2s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+}
+
+/* Framer Motion 전환 시 스크롤바 깜빡임 방지 */
+@layer utilities {
+  .page-wrapper {
+    @apply fixed inset-0 w-full h-full;
+  }
+}
