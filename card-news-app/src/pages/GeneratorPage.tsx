@@ -208,8 +208,8 @@ export default function GeneratorPage() {
                     <button
                         onClick={() => { setMode('ai'); setError(null); }}
                         className={`flex-1 py-3 px-4 rounded-lg font-bold text-sm transition-all duration-300 cursor-pointer border-0 ${mode === 'ai'
-                                ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg'
-                                : 'text-slate-400 hover:text-white bg-transparent'
+                            ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg'
+                            : 'text-slate-400 hover:text-white bg-transparent'
                             }`}
                     >
                         🤖 AI 자동 생성
@@ -217,8 +217,8 @@ export default function GeneratorPage() {
                     <button
                         onClick={() => { setMode('manual'); setError(null); }}
                         className={`flex-1 py-3 px-4 rounded-lg font-bold text-sm transition-all duration-300 cursor-pointer border-0 ${mode === 'manual'
-                                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg'
-                                : 'text-slate-400 hover:text-white bg-transparent'
+                            ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg'
+                            : 'text-slate-400 hover:text-white bg-transparent'
                             }`}
                     >
                         📝 직접 입력
@@ -284,10 +284,10 @@ export default function GeneratorPage() {
                                 whileHover={!isLoading ? { scale: 1.02 } : {}}
                                 whileTap={!isLoading ? { scale: 0.98 } : {}}
                                 className={`w-full py-4 rounded-xl font-bold text-lg cursor-pointer border-0 transition-all duration-300 ${isLoading
-                                        ? 'bg-slate-700 text-slate-400 cursor-wait'
-                                        : aiTitle.trim()
-                                            ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50'
-                                            : 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                                    ? 'bg-slate-700 text-slate-400 cursor-wait'
+                                    : aiTitle.trim()
+                                        ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50'
+                                        : 'bg-slate-700 text-slate-500 cursor-not-allowed'
                                     }`}
                             >
                                 {isLoading ? (
@@ -304,17 +304,49 @@ export default function GeneratorPage() {
                                 )}
                             </motion.button>
 
-                            {/* API 키 상태 표시 */}
-                            <div className="flex items-center justify-between text-xs text-slate-500">
-                                <span>
-                                    {hasApiKey ? '🔑 API 키 설정됨' : '🔑 API 키 미설정'}
-                                </span>
-                                <button
-                                    onClick={() => setShowApiKeyInput(true)}
-                                    className="text-violet-400 hover:text-violet-300 transition-colors bg-transparent border-0 cursor-pointer"
+                            {/* 🔑 API 키 입력 (항상 표시) */}
+                            <div className="bg-slate-800/50 border border-slate-600 rounded-xl p-4">
+                                <label className="block text-xs font-medium text-slate-400 mb-2">
+                                    🔑 Gemini API 키 {hasApiKey && <span className="text-emerald-400 ml-1">✓ 설정됨</span>}
+                                </label>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="password"
+                                        value={apiKeyInput}
+                                        onChange={(e) => setApiKeyInput(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleSaveApiKey()}
+                                        placeholder={hasApiKey ? '새 키로 변경하려면 입력...' : 'AIzaSy... (API 키 입력)'}
+                                        className="flex-1 px-3 py-2 rounded-lg bg-slate-700 border border-slate-500
+                                            focus:border-violet-500 outline-none text-sm
+                                            placeholder:text-slate-500"
+                                    />
+                                    <button
+                                        onClick={handleSaveApiKey}
+                                        disabled={!apiKeyInput.trim()}
+                                        className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500
+                                            text-xs font-bold transition-colors cursor-pointer border-0
+                                            disabled:opacity-40 disabled:cursor-not-allowed"
+                                    >
+                                        저장
+                                    </button>
+                                    {hasApiKey && (
+                                        <button
+                                            onClick={() => { clearApiKey(); window.location.reload(); }}
+                                            className="px-3 py-2 rounded-lg bg-red-900/50 hover:bg-red-800/50
+                                                text-xs text-red-300 transition-colors cursor-pointer border-0"
+                                        >
+                                            삭제
+                                        </button>
+                                    )}
+                                </div>
+                                <a
+                                    href="https://aistudio.google.com/app/apikey"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs text-violet-400 hover:text-violet-300 mt-2 inline-block"
                                 >
-                                    {hasApiKey ? 'API 키 변경' : 'API 키 설정'}
-                                </button>
+                                    → API 키 발급받기 (Google AI Studio)
+                                </a>
                             </div>
 
                             {/* 예시 주제 추천 */}
