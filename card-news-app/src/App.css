@@ -1,42 +1,71 @@
+/* ============================================================
+   📦 App.css — Vite 기본 템플릿 스타일시트
+   담당: 킴 디자이너
+   설명: Vite + React 프로젝트 생성 시 자동으로 포함되는 기본 CSS입니다.
+         현재 프로젝트에서는 Tailwind CSS를 메인으로 사용하므로,
+         이 파일의 스타일은 대부분 사용되지 않습니다.
+         참고용으로 남겨두었으며, 필요 시 삭제해도 무방합니다.
+   ============================================================ */
+
+/* 🖼️ 루트 컨테이너 기본 레이아웃 */
 #root {
   max-width: 1280px;
+  /* 콘텐츠 최대 너비 제한 */
   margin: 0 auto;
+  /* 가운데 정렬 */
   padding: 2rem;
+  /* 내부 여백 */
   text-align: center;
+  /* 텍스트 중앙 정렬 */
 }
 
+/* 🔗 로고 이미지 기본 스타일 */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
+  /* GPU 가속 힌트: filter 속성 변경 최적화 */
   transition: filter 300ms;
+  /* 호버 시 부드러운 전환 */
 }
+
+/* 로고 호버 효과: 파란 빛 발광 */
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
+/* React 로고 전용 호버 효과: React 브랜드 컬러(하늘색) 발광 */
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* 🔄 로고 회전 애니메이션 키프레임 */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
+    /* 시작: 0도 */
   }
+
   to {
     transform: rotate(360deg);
+    /* 끝: 360도 (한 바퀴) */
   }
 }
 
+/* ♿ 접근성: 사용자가 "움직임 줄이기"를 설정하지 않은 경우에만 회전 애니메이션 실행 */
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
+    /* 무한 반복, 20초에 한 바퀴 */
   }
 }
 
+/* 📇 카드 컨테이너 여백 */
 .card {
   padding: 2em;
 }
 
+/* 📖 "Read the docs" 안내 텍스트 색상 */
 .read-the-docs {
   color: #888;
 }
