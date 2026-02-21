@@ -1,7 +1,13 @@
-// 📦 랜딩 페이지 (Intro Page)
-// 담당: 🎨 킴 디자이너
-// 설명: 사용자가 처음 만나는 화면입니다. 아름다운 배경과 함께 타이틀이 나타나고,
-//       [시작하기] 버튼을 누르면 /story 페이지로 부드럽게 이동합니다.
+// 📦 랜딩 페이지 (Intro Page) — 리디자인 v2
+// 담당: 🎨 킴 디자이너 + 🤖 오토메이션 박사
+// 설명: 사용자가 처음 만나는 화면입니다.
+//       두 개의 대형 액션 카드로 명확한 선택지를 제공합니다:
+//         1. 📖 기존 카드 뉴스 보기 → /story
+//         2. 📝 새 프레젠테이션 만들기 → /generate
+//
+// 🎓 리디자인 포인트:
+//   - 기존의 작은 'Create Your Own' 텍스트 버튼을 대형 글래스모피즘 카드로 교체
+//   - 두 선택지를 동등한 크기로 배치하여 사용자의 선택을 유도
 
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
@@ -18,25 +24,25 @@ const stars = Array.from({ length: 80 }, (_, i) => ({
 }))
 
 // 🎬 Framer Motion 애니메이션 변수(Variants)
-// 페이지 전환 애니메이션: 아래에서 올라오며 등장, 위로 사라지며 퇴장
+// 페이지 전환 애니메이션: 등장 시 약간 확대→정상 크기, 퇴장 시 축소
 const pageVariants = {
-    initial: { opacity: 0, scale: 1.05 },     // 처음 상태: 불투명하고 약간 큰 상태
-    animate: { opacity: 1, scale: 1 },          // 등장 상태: 완전히 보이고 정상 크기
-    exit: { opacity: 0, scale: 0.95 },        // 퇴장 상태: 사라지며 약간 작아짐
+    initial: { opacity: 0, scale: 1.05 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.95 },
 }
 
 // 콘텐츠 스태거(Stagger): 자식 요소들이 순서대로 나타나는 효과
 const containerVariants = {
     initial: {},
     animate: {
-        transition: { staggerChildren: 0.2 }, // 각 자식이 0.2초 간격으로 등장
+        transition: { staggerChildren: 0.15 }, // 각 자식이 0.15초 간격으로 등장
     },
 }
 
-// 자식 요소 등장 애니메이션
+// 자식 요소 등장 애니메이션 (아래에서 위로 올라오며 투명→불투명)
 const itemVariants = {
-    initial: { opacity: 0, y: 30 },  // 아래에서 등장
-    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' as const } },
 }
 
 export default function IntroPage() {
@@ -73,7 +79,7 @@ export default function IntroPage() {
 
             {/* 🌟 메인 콘텐츠 영역 */}
             <motion.div
-                className="relative z-10 text-center px-6 max-w-2xl"
+                className="relative z-10 text-center px-6 max-w-2xl w-full"
                 variants={containerVariants}
                 initial="initial"
                 animate="animate"
@@ -81,7 +87,7 @@ export default function IntroPage() {
                 {/* 아이콘 */}
                 <motion.div
                     variants={itemVariants}
-                    className="text-7xl mb-6 inline-block animate-float"
+                    className="text-6xl mb-4 inline-block animate-float"
                 >
                     🦸‍♂️
                 </motion.div>
@@ -89,57 +95,101 @@ export default function IntroPage() {
                 {/* 메인 타이틀 */}
                 <motion.h1
                     variants={itemVariants}
-                    className="text-5xl md:text-6xl font-black text-white mb-4 leading-tight"
+                    className="text-4xl md:text-5xl font-black text-white mb-2 leading-tight"
                     style={{ textShadow: '0 0 40px rgba(167,139,250,0.8)' }}
                 >
-                    어벤져스 팀
+                    카드 뉴스 메이커
                 </motion.h1>
 
                 {/* 서브 타이틀 */}
                 <motion.p
                     variants={itemVariants}
-                    className="text-lg md:text-xl text-purple-200 mb-4 font-medium"
+                    className="text-base md:text-lg text-purple-200 mb-8 font-medium"
                 >
-                    Kenneth Cruise Guide
+                    마크다운을 아름다운 카드 뉴스로 변환하세요
                 </motion.p>
 
+                {/* ━━━ 두 개의 대형 액션 카드 ━━━ */}
+                <motion.div
+                    variants={itemVariants}
+                    className="flex flex-col sm:flex-row gap-4 w-full max-w-lg mx-auto"
+                >
+                    {/* 📖 기존 카드 보기 — 보라색 그라디언트 카드 */}
+                    <motion.button
+                        onClick={() => navigate('/story')}
+                        whileHover={{
+                            scale: 1.04,
+                            boxShadow: '0 0 40px rgba(139,92,246,0.6)',
+                        }}
+                        whileTap={{ scale: 0.97 }}
+                        className="
+                            flex-1 p-6 rounded-2xl cursor-pointer border border-white/10
+                            bg-gradient-to-br from-violet-600/80 to-indigo-700/80
+                            backdrop-blur-md
+                            text-left
+                            transition-all duration-300
+                        "
+                        style={{ boxShadow: '0 8px 32px rgba(139,92,246,0.3)' }}
+                    >
+                        {/* 카드 아이콘 */}
+                        <div className="text-4xl mb-3">📖</div>
+                        {/* 카드 타이틀 */}
+                        <h3 className="text-xl font-bold text-white mb-1">
+                            카드 뉴스 보기
+                        </h3>
+                        {/* 카드 설명 */}
+                        <p className="text-sm text-purple-200/80">
+                            저장된 프레젠테이션을 슬라이드로 감상합니다
+                        </p>
+                        {/* 화살표 힌트 */}
+                        <div className="mt-3 text-purple-300 text-sm font-medium">
+                            시작하기 →
+                        </div>
+                    </motion.button>
+
+                    {/* 📝 새 프레젠테이션 만들기 — 에메랄드 그라디언트 카드 */}
+                    <motion.button
+                        onClick={() => navigate('/generate')}
+                        whileHover={{
+                            scale: 1.04,
+                            boxShadow: '0 0 40px rgba(52,211,153,0.6)',
+                        }}
+                        whileTap={{ scale: 0.97 }}
+                        className="
+                            flex-1 p-6 rounded-2xl cursor-pointer border border-white/10
+                            bg-gradient-to-br from-emerald-600/80 to-teal-700/80
+                            backdrop-blur-md
+                            text-left
+                            transition-all duration-300
+                        "
+                        style={{ boxShadow: '0 8px 32px rgba(52,211,153,0.2)' }}
+                    >
+                        {/* 카드 아이콘 */}
+                        <div className="text-4xl mb-3">📝</div>
+                        {/* 카드 타이틀 */}
+                        <h3 className="text-xl font-bold text-white mb-1">
+                            새 프레젠테이션 만들기
+                        </h3>
+                        {/* 카드 설명 */}
+                        <p className="text-sm text-emerald-200/80">
+                            마크다운 파일을 업로드하거나 직접 입력하세요
+                        </p>
+                        {/* 화살표 힌트 */}
+                        <div className="mt-3 text-emerald-300 text-sm font-medium">
+                            시작하기 →
+                        </div>
+                    </motion.button>
+                </motion.div>
+
+                {/* 브랜드 푸터 */}
                 <motion.p
                     variants={itemVariants}
-                    className="text-base text-purple-300 mb-10 opacity-80"
+                    className="text-xs text-white/20 mt-8"
                 >
-                    핵심 운영·개발 전문가 연합 — 14명의 AI 팀이 여기 있습니다.
+                    Kenneth Cruise Guide · 어벤져스 팀
                 </motion.p>
-
-                {/* [시작하기] 버튼 */}
-                <motion.button
-                    variants={itemVariants}
-                    onClick={() => navigate('/story')}
-                    // 호버 및 클릭 인터랙션 (Framer Motion의 gesture 기능)
-                    whileHover={{ scale: 1.08, boxShadow: '0 0 30px rgba(167,139,250,0.9)' }}
-                    whileTap={{ scale: 0.95 }}
-                    className="
-            px-10 py-4 rounded-full text-white font-bold text-lg
-            bg-gradient-to-r from-violet-600 to-indigo-600
-            shadow-lg shadow-violet-500/50
-            transition-shadow duration-300
-            cursor-pointer border-0
-            mb-8
-          "
-                    style={{ boxShadow: '0 0 20px rgba(139,92,246,0.5)' }}
-                >
-                    시작하기 →
-                </motion.button>
-
-                {/* 생성기 링크 */}
-                <motion.div variants={itemVariants}>
-                    <button
-                        onClick={() => navigate('/generate')}
-                        className="text-xs text-white/30 hover:text-white/80 transition-colors uppercase tracking-widest bg-transparent border-0 cursor-pointer"
-                    >
-                        🛠️ Create Your Own
-                    </button>
-                </motion.div>
             </motion.div>
         </motion.div>
     )
 }
+
